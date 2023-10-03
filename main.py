@@ -7,14 +7,19 @@ cur = con.cursor()
 
 
 def longest_movie():
-    res = cur.execute(f"""SELECT title, duration FROM `netflix_titles` WHERE `type` = 'Movie'""")
-    res = res.fetchall()
+    """
+    Функция ищет и возвращает самый продолжительный фильм
+    """
+    res = cur.execute(f"""SELECT title, duration FROM `netflix_titles` WHERE `type` = 'Movie'""").fetchall()
     res = list(map(lambda x: (x[0], int(x[1].split(' ')[0])), res))
     res = sorted(res, key=lambda x: x[1])
     return res[-1]
 
 
 def longest_tv_show():
+    """
+    Функция ищет и возвращает самые продолжительные сериалы
+    """
     res = cur.execute(f"""SELECT title, duration FROM `netflix_titles` WHERE `type` = 'TV Show'""")
     res = res.fetchall()
     res = list(map(lambda x: (x[0], int(x[1].split(' ')[0])), res))
@@ -23,6 +28,9 @@ def longest_tv_show():
 
 
 def most_popular_actor():
+    """
+    Функция ищет и возвращает актёра, который чаще всего снимался в фильмах и сериалах
+    """
     res = cur.execute(f"""SELECT `cast` FROM `netflix_titles` WHERE `cast` != ''""").fetchall()
     actors = {}
     for casts in res:
@@ -38,8 +46,9 @@ def most_popular_actor():
 
 
 def most_popular_couple():
-    # res = combinations(['a', 'b', 'c'], 2)
-    # print(list(res))
+    """
+    Функция ищет и возвращает пару, которая чаще всего снималась друг с другом
+    """
     res = cur.execute(f"""SELECT `cast` FROM `netflix_titles` WHERE `cast` != ''""").fetchall()
     _pairs = {}
     for casts in res:
