@@ -6,6 +6,12 @@ con = sqlite3.connect("netflix.sqlite")
 cur = con.cursor()
 
 
+def normalize():
+    columns = ['show_id', 'director', 'country', 'date_added', 'release_year', 'rating', 'listed_in', 'description']
+    for column in columns:
+        cur.execute(f'ALTER TABLE `netflix_titles` DROP COLUMN {column}')
+
+
 def longest_movie():
     """
     Функция ищет и возвращает самый продолжительный фильм
@@ -69,6 +75,8 @@ def most_popular_couple():
 
 
 if __name__ == '__main__':
+    # normalize()
+
     title, minutes = longest_movie()
     print(f"Самый продолжительный фильм «{title}» длится {minutes} минут")
 
